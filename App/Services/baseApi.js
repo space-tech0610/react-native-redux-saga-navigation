@@ -5,12 +5,18 @@ import { merge as _merge } from 'lodash'
 import _ from 'lodash'
 
 function baseAxios(options) {
+  const base64 = require('base-64');
   const defaultHeaders = {
     'Content-Type': 'application/json',
+    'apikey': 'd3b74bd5-8fc5-4953-aa6a-1be333cd6e0b',
+    'Authorization': 'Basic' + base64.encode("react:native")
   }
-
+  // let headers = new Headers()
+  // headers.append('Content-Type', 'application/json')
+  // headers.append('apiKey', 'd3b74bd5-8fc5-4953-aa6a-1be333cd6e0b')
+  // defaultHeaders.append('Authorization', 'Basic' + base64.encode("react:native"))
   return axios.create({
-    baseURL: url.format('https://a768y9e5ng.execute-api.ap-southeast-2.amazonaws.com/Development'),
+    baseURL: url.format('https://community-staging.pollenstores.co/interview/api/communities/all'),
     timeout: options.timeout || 30000,
     headers: defaultHeaders,
   })

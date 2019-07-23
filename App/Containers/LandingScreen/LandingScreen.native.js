@@ -129,6 +129,7 @@ class LandingScreen extends React.PureComponent {
     const { foodListResponse } = this.props
     const foodListIsFetching = _.get(foodListResponse, 'foodListData.isFetching', false)
 
+    console.log(this.state.dataSource)
     if (_.size(this.state.dataSource) > 0) {
       return (
         <View style={styles.flatListContainer}>
