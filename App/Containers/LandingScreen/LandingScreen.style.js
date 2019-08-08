@@ -52,7 +52,7 @@ export default StyleSheet.create({
   flatListItem: {
     flex: 1,
     flexDirection: 'row',
-    height: 50,
+    height: 100,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(133,133,133,0.3)',
     alignItems: 'center',

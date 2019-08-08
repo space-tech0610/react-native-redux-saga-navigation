@@ -46,7 +46,7 @@ class LandingScreen extends React.PureComponent {
     const { foodListResponse } = nextProps
     const foodListError = _.get(foodListResponse, 'foodListData.error', null)
     const foodListIsFetching = _.get(foodListResponse, 'foodListData.isFetching', false)
-    const foodList = _.get(foodListResponse, 'foodListData.Items', [])
+    const foodList = _.get(foodListResponse, 'foodListData.communities', [])
 
     if (this.foodListCheck) {
       if (!foodListIsFetching && foodListError == null && foodListResponse.foodListData != null) {
@@ -84,7 +84,7 @@ class LandingScreen extends React.PureComponent {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        {this._renderTopContainer()}
+        {/* {this._renderTopContainer()} */}
         {this._renderHeader()}
         {this._renderFoodList()}
         {this._renderActivityIndicator()}
@@ -119,17 +119,45 @@ class LandingScreen extends React.PureComponent {
   _renderHeader = () => {
     return (
       <View style={styles.listHeader}>
-        <Text style={styles.foodName}>Name</Text>
-        <Text style={styles.dateCreated}>Date Created</Text>
+        <Text style={styles.foodName}>photo</Text>
+        <Text style={styles.dateCreated}>Decription</Text>
       </View>
     )
   }
+
+  // searchFilterFunction = text => {
+  //   this.setState({
+  //     value: text,
+  //   });
+
+  //   const newData = this.state.arrayholder.filter(item => {
+  //     const itemData = `${item.username.toUpperCase()}`;
+  //     const textData = text.toUpperCase();
+
+  //     return itemData.indexOf(textData) > -1;
+  //   });
+  //   this.setState({
+  //     dataSource: newData,
+  //   });
+  // };
+
+  // renderHeader = () => {
+  //   return (
+  //     <SearchBar
+  //       placeholder="Search..."
+  //       lightTheme
+  //       round
+  //       onChangeText={text => this.searchFilterFunction(text)}
+  //       autoCorrect={false}
+  //       value={this.state.value}
+  //     />
+  //   );
+  // };
 
   _renderFoodList = () => {
     const { foodListResponse } = this.props
     const foodListIsFetching = _.get(foodListResponse, 'foodListData.isFetching', false)
 
-    console.log(this.state.dataSource)
     if (_.size(this.state.dataSource) > 0) {
       return (
         <View style={styles.flatListContainer}>
@@ -141,6 +169,8 @@ class LandingScreen extends React.PureComponent {
             extraData={this.props}
             renderItem={this.renderRow}
             keyExtractor={(item, index) => item.foodId}
+            // keyExtractor={(item, index) => index.toString()}
+            // ListHeaderComponent={this.renderHeader}
             onRefresh={() => {
               if (!foodListIsFetching) {
                 this.fetchDataOnRefresh()
@@ -227,16 +257,29 @@ class FlatListItem extends Component {
   render() {
     return (
       <View style={styles.flatListItem}>
-        <Text style={styles.foodName}>{this.props.item.name}</Text>
-        <Text style={styles.dateCreated}>{this.props.item.dateCreated}</Text>
-        <TouchableOpacity
-          style={styles.deleteItemContainer}
-          onPress={() => {
-            this.props.onPress(this.props.item)
-          }}>
-          <Image source={require('../../Assets/deleteIcon.png')} resizeMode={'center'} />
-        </TouchableOpacity>
-      </View>
+        <View style={{ flex: 1 }}>
+          {this.props.item.photo ? (
+            <Image source={{uri:this.props.item.photo}} style={{width:90, height:90}} resizeMode={'center'} />
+          ) : (
+            <Image source={{uri:"https://png2.kisspng.com/sh/b8a79dde37962585e9df306e0e74f02b/L0KzQYm3V8A0N5pvfZH0aYP2gLBuTfNwdaF6jNd7LXnmf7B6TgV0baMyeehqdHH1Pcb6hgIuPZM4etNvZUK4dIa4UckvP2k8Sqo8MEG0RYS3VsM5O2E7S6o7Mj7zfri=/kisspng-computer-icons-user-avatar-user-5b3bafe25d5119.7872830115306383063822.png"}} style={{width:100, height:100}} resizeMode={'center'} />
+          )}
+          
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent:'center' }}>
+          <Text style={{height:0}}>{this.props.item._id}</Text>
+          <Text style={styles.foodName}>{this.props.item.name}</Text>
+          <Text style={styles.foodName}>{this.props.item.country}</Text>
+          <Text style={styles.dateCreated}>{this.props.item.description}</Text>
+        </View >
+
+      {/* <TouchableOpacity
+        style={styles.deleteItemContainer}
+        onPress={() => {
+          this.props.onPress(this.props.item)
+        }}>
+        <Image source={require('../../Assets/deleteIcon.png')} resizeMode={'center'} />
+      </TouchableOpacity> */}
+      </View >
     )
   }
 }
